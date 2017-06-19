@@ -11,7 +11,7 @@ This database can then be queried via the built-in webinterface, at `http://<res
 This example was mainly done as a test of InfluxDB performance on RPi, so here:
 
 Raspberry Pi B+:
-- writing a single measurement (9 values): ~20-30 milliseconds
+- writing a single measuremet (9 values): ~20-30 milliseconds
 
 - querying ~130 000 load averages (last 12 hours) and calculating 15 minute averages: ~1.2 seconds
     `select mean(value) from load_avg where time > now() - 12h group by avg_time, time(15m)`
