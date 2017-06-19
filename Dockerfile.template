@@ -4,12 +4,10 @@ MAINTAINER Jack Zampolin <jack@influxdb.com>
 # Install influxdb
 RUN wget -O /tmp/influxdb.deb https://dl.influxdata.com/influxdb/releases/influxdb_1.2.4_armhf.deb && \
     dpkg -i /tmp/influxdb.deb && rm /tmp/influxdb.deb
-ADD /config/influxdb.conf /etc/influxdb/influxdb.conf
 
 # Install telegraf
 RUN wget -O /tmp/telegraf.deb https://dl.influxdata.com/telegraf/releases/telegraf_1.3.1-1_armhf.deb && \
     dpkg -i /tmp/telegraf.deb && rm /tmp/telegraf.deb
-ADD /config/telegraf.conf /etc/telegraf/telegraf.conf
 
 # Install chronograf
 RUN wget -O /tmp/chronograf.deb https://dl.influxdata.com/chronograf/releases/chronograf_1.3.2.1_armhf.deb && \
@@ -18,7 +16,6 @@ RUN wget -O /tmp/chronograf.deb https://dl.influxdata.com/chronograf/releases/ch
 # Install kapacitor
 RUN wget -O /tmp/kapacitor.deb https://dl.influxdata.com/kapacitor/releases/kapacitor_1.3.1_armhf.deb && \
     dpkg -i /tmp/kapacitor.deb && rm /tmp/kapacitor.deb
-ADD /config/kapacitor.conf /etc/kapacitor/kapacitor.conf
 
 # Add app
 RUN mkdir -p /usr/src/app
@@ -26,13 +23,15 @@ ADD /app /usr/src/app
 # Install the app requirements
 RUN pip install -r /usr/src/app/requirements.txt
 
-# Change influxdb data to be stored in the persising partition
-RUN sed -i 's|/var/lib/influxdb|/data/influxdb|g' /etc/influxdb/influxdb.conf
+# Add Configuration files for the TICK Stack
+ADD /config/influxdb.conf /etc/influxdb/influxdb.conf
+ADD /config/telegraf.conf /etc/telegraf/telegraf.conf
+ADD /config/kapacitor.conf /etc/kapacitor/kapacitor.conf
 
 # Create configuration for supervisord
 RUN echo_supervisord_conf > /usr/local/etc/supervisord.conf && \
     echo "[include]" >> /usr/local/etc/supervisord.conf && \
     echo "files = /usr/src/app/supervisor/*.conf" >> /usr/local/etc/supervisord.conf
 
-# Finally, start our app
+# Start InfluxDB, Kapacitor, Chronograf, and Telegraf
 CMD ["bash", "/usr/src/app/start.sh"]
