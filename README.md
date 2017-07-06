@@ -1,4 +1,4 @@
-resin-influx
+# resin-influx
 ============
 
 A basic example of running the [InfluxData](https://influxdata.com/) TICK Stack via [resin.io](https://resin.io).
@@ -20,3 +20,4 @@ This Dockerfile spins up the following processes:
 - [InfluxDB](https://github.com/influxdata/influxdb)
 - [Kapacitor](https://github.com/influxdata/kapacitor)
 - [Chronograf](https://github.com/influxdata/chronograf)
+
