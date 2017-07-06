@@ -1,3 +1,0 @@
-stream
-  |from()
-  |influxDBOut("cloudInflux")
