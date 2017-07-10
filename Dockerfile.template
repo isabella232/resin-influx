@@ -10,7 +10,7 @@ RUN wget -O /tmp/telegraf.deb https://dl.influxdata.com/telegraf/releases/telegr
     dpkg -i /tmp/telegraf.deb && rm /tmp/telegraf.deb
 
 # Install chronograf
-RUN wget -O /tmp/chronograf.deb https://dl.influxdata.com/chronograf/releases/chronograf_1.3.2.1_armhf.deb && \
+RUN wget -O /tmp/chronograf.deb https://dl.influxdata.com/chronograf/releases/chronograf_1.3.3.1_armhf.deb && \
     dpkg -i /tmp/chronograf.deb && rm /tmp/chronograf.deb
 
 # Install kapacitor
